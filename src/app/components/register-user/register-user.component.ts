@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { User } from '../../user.model';
+import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { DataService } from '../../data.service';
 
 @Component({
   selector: 'app-register-user',
@@ -10,23 +10,26 @@ import { CommonModule } from '@angular/common';
   templateUrl: './register-user.component.html',
   styleUrl: './register-user.component.css'
 })
-export class RegisterUserComponent {
-  newUser: User = {
-    nombre: '',
-    numeroCuenta: '',
-    carrera: '',
-    semestre: 0
-  };
-
+export class RegisterUserComponent implements OnInit {
+  
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private wsService: DataService) {
     this.registerForm = this.fb.group({
       nombre: ['', Validators.required],
       numeroCuenta: ['', Validators.required],
       carrera: ['', Validators.required],
       semestre: ['', Validators.required],
-      rfidId: ['AABBCCDDEEFF', Validators.required]
+      rfidId: ['', Validators.required]
+    });
+  }
+
+  ngOnInit(): void {
+    this.wsService.onMessage((data: string) => {
+      // Cuando se recibe un mensaje del ESP32, actualizar el campo rfidId
+      this.registerForm.patchValue({
+        rfidId: data
+      });
     });
   }
 
@@ -42,7 +45,7 @@ export class RegisterUserComponent {
       numeroCuenta: '',
       carrera: '',
       semestre: '',
-      rfidId: 'AABBCCDDEEFF'
+      rfidId: ''
     });
   }
 }
