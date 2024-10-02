@@ -14,5 +14,5 @@ import { AccessSimulationComponent } from './components/access-simulation/access
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'Proyecto-RFID';
+  title = 'proyecto-rfid';
 }

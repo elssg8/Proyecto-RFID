@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'Proyecto-RFID' title`, () => {
+  it(`should have the 'proyecto-rfid' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('Proyecto-RFID');
+    expect(app.title).toEqual('proyecto-rfid');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, Proyecto-RFID');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, proyecto-rfid');
   });
 });

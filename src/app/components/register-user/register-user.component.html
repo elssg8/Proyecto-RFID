@@ -33,3 +33,24 @@
     </form>
   </div>
 </div>
+
+<!-- Modal*ngIf="isModalVisible" -->
+<div  class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div class="bg-white rounded-lg p-6">
+    <div *ngIf="isUserRegistered">
+      <img src="src/Assets/icons/success.svg" alt="Success Icon" class="mb-4">
+      <h3 class="text-lg font-semibold">{{ modalMessage || 'Probando el modal' }}</h3>
+      <div class="mt-4">
+        <button (click)="closeModal()" class="bg-indigo-600 text-white px-4 py-2 rounded">Cerrar</button>
+      </div>
+    </div>
+    <div *ngIf="!isUserRegistered">
+      <img src="src/Assets/icons/error.svg" alt="Error Icon" class="mb-4">
+      <h3 class="text-lg font-semibold">{{ modalMessage || 'Probando el modal' }}</h3>
+      <div class="mt-4">
+        <button (click)="closeModal()" class="bg-indigo-600 text-white px-4 py-2 rounded">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
