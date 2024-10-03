@@ -4,14 +4,18 @@
 #include <WebSocketsServer.h>
 
 // Configuración de red WiFi
-const char* ssid = "INFINITUMF4AF";
-const char* password = "$7UegKW37aT;";
+const char* ssid = "OnePlus 11 5G";
+const char* password = "c7bxwmdr";
 
 // WebSocket en el puerto 81
-WebSocketsServer webSocket = WebSocketsServer(81);
+WebSocketsServer webSocket = WebSocketsServer(5000);
 
 #define SS_PIN 5        // Pin SDA conectado al GPIO 5 del ESP32
 #define RST_PIN 22      // Pin RST conectado al GPIO 22 del ESP32
+
+// Pines para los LEDs
+#define LED_VERDE 15    // Pin para LED verde (entrada)
+#define LED_ROJO 16     // Pin para LED rojo (salida)
 
 MFRC522 rfid(SS_PIN, RST_PIN); // Instancia de la clase MFRC522
 MFRC522::MIFARE_Key key; 
@@ -27,6 +31,10 @@ void setup() {
   for (byte i = 0; i < 6; i++) {
     key.keyByte[i] = 0xFF;
   }
+
+  // Inicializar pines de LEDs
+  pinMode(LED_VERDE, OUTPUT);
+  pinMode(LED_ROJO, OUTPUT);
 
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
@@ -64,6 +72,18 @@ void loop() {
 
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
   if (type == WStype_TEXT) {
+    String message = String((char*)payload);
+
+    // Revisar si es una entrada o una salida
+    if (message == "entrada") {
+      digitalWrite(LED_VERDE, HIGH); // Enciende LED verde
+      delay(5000);                   // Mantiene encendido por 5 segundos
+      digitalWrite(LED_VERDE, LOW);  // Apaga LED verde
+    } else if (message == "salida") {
+      digitalWrite(LED_ROJO, HIGH);  // Enciende LED rojo
+      delay(5000);                   // Mantiene encendido por 5 segundos
+      digitalWrite(LED_ROJO, LOW);   // Apaga LED rojo
+    }
     Serial.printf("[%u] Texto recibido: %s\n", num, payload);
   }
 }

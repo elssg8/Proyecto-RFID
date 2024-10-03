@@ -63,6 +63,9 @@ export class AccessRecordsComponent implements OnInit {
           // Si ya existe un registro de entrada sin salida, actualiza con la fecha de salida
           lastAccessRecord.fechaHoraSalida = Timestamp.fromDate(new Date());
           await this.firestoreService.updateAccessRecord(lastAccessRecord); // Actualizar el registro
+
+          // Enviar mensaje de salida al ESP32
+          this.dataService.sendMessage('salida');
         } else {
           // Si no hay registros sin salida, crea un nuevo registro de entrada
           const newAccessRecord: AccessRecord = {
@@ -74,6 +77,9 @@ export class AccessRecordsComponent implements OnInit {
             fechaHoraEntrada: Timestamp.fromDate(new Date()) // Guardar la entrada
           };
           await this.firestoreService.addAccessRecord(newAccessRecord); // Crear un nuevo registro
+          
+          // Enviar mensaje de entrada al ESP32
+          this.dataService.sendMessage('entrada');
         }
     
         // Actualizar la tabla después de registrar el acceso
