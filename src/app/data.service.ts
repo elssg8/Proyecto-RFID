@@ -8,7 +8,8 @@ export class DataService {
   private socket: WebSocket;
 
   constructor() {
-    this.socket = new WebSocket('ws://192.168.252.83:5000');
+    // this.socket = new WebSocket('ws://192.168.252.83:5000');
+    this.socket = new WebSocket('ws://192.168.1.82:81');
 
     this.socket.onopen = () => {
       console.log('Conexión WebSocket abierta');
