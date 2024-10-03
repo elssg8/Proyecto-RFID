@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { User } from '../../user.model';
 import { CommonModule } from '@angular/common';
+import { FirestoreService } from '../../firestore.service';
+import { EditUserService } from '../../shared/edit-user.service';
 
 @Component({
   selector: 'app-modify-user',
@@ -10,26 +12,59 @@ import { CommonModule } from '@angular/common';
   styleUrl: './modify-user.component.css'
 })
 export class ModifyUserComponent {
-  users: User[] = [
-    { id: 1, nombre: 'Juan Pérez', numeroCuenta: '20230001', carrera: 'Ingeniería Informática', semestre: 3 },
-    { id: 2, nombre: 'María García', numeroCuenta: '20230002', carrera: 'Medicina', semestre: 5 },
-    { id: 3, nombre: 'Carlos Rodríguez', numeroCuenta: '20230003', carrera: 'Derecho', semestre: 2 },
-    { id: 4, nombre: 'Ana Martínez', numeroCuenta: '20230004', carrera: 'Arquitectura', semestre: 4 },
-    { id: 5, nombre: 'Luis Sánchez', numeroCuenta: '20230005', carrera: 'Psicología', semestre: 1 },
-    { id: 6, nombre: 'Elena López', numeroCuenta: '20230006', carrera: 'Ingeniería Civil', semestre: 2 },
-    { id: 7, nombre: 'Miguel Torres', numeroCuenta: '20230007', carrera: 'Ingeniería Eléctrica', semestre: 3 },
-    { id: 8, nombre: 'Laura Ramírez', numeroCuenta: '20230008', carrera: 'Ingeniería Mecánica', semestre: 4 },
-    { id: 9, nombre: 'Javier Gómez', numeroCuenta: '20230009', carrera: 'Ingeniería Química', semestre: 5 },
-    { id: 10, nombre: 'Sandra Díaz', numeroCuenta: '20230010', carrera: 'Ingeniería Industrial', semestre: 6 }
-  ];
+  users: User[] = [];
+  isModalVisible: boolean = false; 
+  modalMessage: string = ''; 
+  isConfirmModalVisible: boolean = false; 
+  userToDelete: User | null = null;
+
+  constructor(private firestoreService: FirestoreService, private userEditService: EditUserService) {}
+
+  ngOnInit(): void {
+    this.loadUsers();
+
+    // Escuchar las notificaciones para actualizar la tabla
+    this.userEditService.isUpdateTable$.subscribe((shouldUpdate) => {
+      if (shouldUpdate) {
+        this.loadUsers();  // Recargar los usuarios
+        this.userEditService.resetTableUpdateFlag();  // Resetear el flag
+      }
+    });
+  }
+
+  async loadUsers() {
+    this.users = await this.firestoreService.getUsers();
+  }
 
   editUser(user: User) {
-    // Implement edit logic here
-    console.log('Editing user:', user);
+    this.userEditService.setUserToEdit(user); // Envía los datos al servicio
   }
 
-  deleteUser(user: User): void {
-    // Implement user deletion logic here
-    console.log('Deleting user:', user);
+  confirmDelete(user: User) {
+    this.userToDelete = user;  // Almacena el usuario a eliminar
+    this.isConfirmModalVisible = true;  // Muestra el modal de confirmación
   }
+
+  async deleteUser() {
+    if (this.userToDelete) {
+      try {
+        await this.firestoreService.deleteUser(this.userToDelete.numeroCuenta);
+        this.loadUsers();  // Recargar los usuarios
+        this.modalMessage = 'Usuario eliminado correctamente';
+        this.isModalVisible = true; // Muestra el modal de éxito
+        this.closeConfirmModal();  // Cierra el modal de confirmación
+      } catch (error) {
+        console.error('Error al eliminar el usuario', error);
+      }
+    }
+  }
+
+  closeConfirmModal() {
+    this.isConfirmModalVisible = false; // Oculta el modal de confirmación
+  }
+
+  closeModal() {
+    this.isModalVisible = false; // Oculta el modal
+  }
+
 }

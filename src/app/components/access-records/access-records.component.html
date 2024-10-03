@@ -20,7 +20,7 @@
           <td class="px-6 py-4 whitespace-nowrap">{{ record.numeroCuenta }}</td>
           <td class="px-6 py-4 whitespace-nowrap">{{ record.carrera }}</td>
           <td class="px-6 py-4 whitespace-nowrap">{{ record.semestre }}</td>
-          <td class="px-6 py-4 whitespace-nowrap">{{ record.fechaHora | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ record.fechaHora.toDate() | date: 'medium' }}</td>
           <td class="px-6 py-4 whitespace-nowrap">{{ record.tipoAcceso }}</td>
         </tr>
       </tbody>

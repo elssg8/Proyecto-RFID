@@ -1,5 +1,5 @@
 export interface User {
-    id?: number;
+    rfid?: number;
     nombre: string;
     numeroCuenta: string;
     carrera: string;
