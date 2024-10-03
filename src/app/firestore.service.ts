@@ -114,5 +114,41 @@ async getUserAccessRecords(rfid: string): Promise<AccessRecord[]> {
         .map(doc => ({...doc.data() } as AccessRecord))
         .filter(record => record.rfid === rfid); // Filtra por RFID en lugar de número de cuenta
 }
+
+async updateAccessRecord(accessRecord: AccessRecord): Promise<void> {
+  const accessRecordsCollection = collection(this.firestore, 'accessRecords');
+  const accessRecordQuery = query(accessRecordsCollection, where('rfid', '==', accessRecord.rfid));
+
+  const accessRecordSnapshot = await getDocs(accessRecordQuery);
+
+  if (!accessRecordSnapshot.empty) {
+    // Ordenar los registros por fechaHoraEntrada (el más reciente al final)
+    const sortedRecords = accessRecordSnapshot.docs
+      .map(doc => ({
+        id: doc.id,
+        ...doc.data() as AccessRecord
+      }))
+      .sort((a, b) => b.fechaHoraEntrada.seconds - a.fechaHoraEntrada.seconds);
+
+    // El registro más reciente es el primero (después de ordenar)
+    const mostRecentRecord = sortedRecords[0];
+
+    // Verificar si el registro más reciente ya tiene fechaHoraSalida
+    if (!mostRecentRecord.fechaHoraSalida) {
+      const accessRecordDoc = doc(this.firestore, 'accessRecords', mostRecentRecord.id);
+      
+      // Si no tiene, actualiza la fecha y hora de salida
+      await updateDoc(accessRecordDoc, {
+        fechaHoraSalida: accessRecord.fechaHoraSalida // Actualiza la fecha y hora de salida
+      });
+    } else {
+      throw new Error('El registro más reciente ya tiene una hora de salida asignada');
+    }
+  } else {
+    throw new Error('Registro de acceso no encontrado');
+  }
+}
+
+
        
 }

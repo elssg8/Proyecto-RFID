@@ -6,6 +6,6 @@ export interface AccessRecord {
     numeroCuenta: string;
     carrera: string;
     semestre: number;
-    fechaHora: Timestamp; // Cambiar Date a Timestamp
-    tipoAcceso: 'Entrada' | 'Salida';
+    fechaHoraEntrada: Timestamp; // Cambiar Date a Timestamp
+    fechaHoraSalida?: Timestamp; // Nuevo campo opcional
 }

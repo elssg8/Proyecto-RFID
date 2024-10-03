@@ -1,4 +1,4 @@
-<div class="bg-white shadow-md rounded-lg overflow-hidden flex flex-col h-[500px]">
+<div class="bg-white shadow-md rounded-lg overflow-hidden flex flex-col h-[700px]">
   <div class="bg-gray-100 px-4 py-3">
     <h2 class="text-xl font-semibold text-gray-800">Registros de Acceso</h2>
   </div>
@@ -7,21 +7,21 @@
       <thead class="bg-gray-50 sticky top-0">
         <tr>
           <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Número de Cuenta</th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Carrera</th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semestre</th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha y Hora</th>
-          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo de Acceso</th>
+          <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Número de Cuenta</th>
+          <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Carrera</th>
+          <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Semestre</th>
+          <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Entrada</th>
+          <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Salida</th>
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
         <tr *ngFor="let record of accessRecords">
           <td class="px-6 py-4 whitespace-nowrap">{{ record.nombre }}</td>
-          <td class="px-6 py-4 whitespace-nowrap">{{ record.numeroCuenta }}</td>
-          <td class="px-6 py-4 whitespace-nowrap">{{ record.carrera }}</td>
-          <td class="px-6 py-4 whitespace-nowrap">{{ record.semestre }}</td>
-          <td class="px-6 py-4 whitespace-nowrap">{{ record.fechaHora.toDate() | date: 'medium' }}</td>
-          <td class="px-6 py-4 whitespace-nowrap">{{ record.tipoAcceso }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-center">{{ record.numeroCuenta }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-center">{{ record.carrera }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-center">{{ record.semestre }}</td>
+          <td class="px-6 py-4 whitespace-nowrap"><i class="fa-solid fa-arrow-down" style="color: #0ba300;"></i> {{ record.fechaHoraEntrada.toDate() | date: 'medium' }}</td>
+          <td class="px-6 py-4 whitespace-nowrap"><i class="fa-solid fa-arrow-up" style="color: #d31717;"></i> {{ record.fechaHoraSalida ? (record.fechaHoraSalida.toDate() | date: 'medium') : '---' }}</td>
         </tr>
       </tbody>
     </table>
