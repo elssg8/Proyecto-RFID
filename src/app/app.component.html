@@ -10,16 +10,16 @@
 </div>
 
 
-<div *ngIf="!showAccessRecords" class="grid grid-cols-5 gap-6 my-5 mx-5 h-[700px] items-center">
+<div *ngIf="!showAccessRecords" class="grid grid-cols-6 gap-6 my-5 mx-5 h-auto items-center">
   <app-register-user class="grid col-span-2"></app-register-user>
-  <app-modify-user class="grid col-span-3"></app-modify-user>
+  <app-modify-user class="grid col-span-4"></app-modify-user>
 </div>
 
 <div *ngIf="showAccessRecords" class="flex my-5 mx-5 gap-6">
-  <div class="w-[70%] mr-6">
+  <div class="w-[80%] mr-6">
     <app-access-records></app-access-records>
   </div>
-  <div class="w-[30%] flex flex-col  justify-center">
+  <div class="w-[20%] flex flex-col justify-start mt-10">
     <app-access-simulation></app-access-simulation>
   </div>
 </div>

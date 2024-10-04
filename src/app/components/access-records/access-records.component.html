@@ -7,22 +7,22 @@
     <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-gray-50 sticky top-0">
         <tr>
-          <th scope="col" class="px-6 py-3 text-left text-md font-bold text-gray-500 uppercase tracking-wider">Nombre</th>
-          <th scope="col" class="px-6 py-3 text-center text-md font-bold text-gray-500 uppercase tracking-wider">Número de Cuenta</th>
-          <th scope="col" class="px-6 py-3 text-center text-md font-bold text-gray-500 uppercase tracking-wider">Carrera</th>
-          <th scope="col" class="px-6 py-3 text-center text-md font-bold text-gray-500 uppercase tracking-wider">Semestre</th>
-          <th scope="col" class="px-6 py-3 text-center text-md font-bold text-gray-500 uppercase tracking-wider">Entrada</th>
-          <th scope="col" class="px-6 py-3 text-center text-md font-bold text-gray-500 uppercase tracking-wider">Salida</th>
+          <th scope="col" class="px-2 py-3 text-left text-md font-bold text-gray-500 uppercase tracking-wider">Nombre</th>
+          <th scope="col" class="px-2 py-3 text-center text-md font-bold text-gray-500 uppercase tracking-wider">Cuenta</th>
+          <th scope="col" class="px-2 py-3 text-center text-md font-bold text-gray-500 uppercase tracking-wider">Carrera</th>
+          <th scope="col" class="px-2 py-3 text-center text-md font-bold text-gray-500 uppercase tracking-wider">Semestre</th>
+          <th scope="col" class="px-2 py-3 text-center text-md font-bold text-gray-500 uppercase tracking-wider">Entrada</th>
+          <th scope="col" class="px-2 py-3 text-center text-md font-bold text-gray-500 uppercase tracking-wider">Salida</th>
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-200">
         <tr *ngFor="let record of accessRecords">
-          <td class="px-6 py-4 text-md whitespace-nowrap ">{{ record.nombre }}</td>
-          <td class="px-6 py-4 text-md whitespace-nowrap text-center">{{ record.numeroCuenta }}</td>
-          <td class="px-6 py-4 text-md whitespace-nowrap text-center">{{ record.carrera }}</td>
-          <td class="px-6 py-4 text-md whitespace-nowrap text-center">{{ record.semestre }}</td>
-          <td class="px-6 py-4 text-md whitespace-nowrap text-center"><i class="fa-solid fa-arrow-down fa-xl mr-2" style="color: #0ba300;"></i> {{ record.fechaHoraEntrada.toDate() | date: 'medium' }}</td>
-          <td class="px-6 py-4 text-md whitespace-nowrap text-center"><i class="fa-solid fa-arrow-up fa-xl mr-2" style="color: #d31717;"></i> {{ record.fechaHoraSalida ? (record.fechaHoraSalida.toDate() | date: 'medium') : '---' }}</td>
+          <td class="px-2 py-4 text-md whitespace-nowrap ">{{ record.nombre }}</td>
+          <td class="px-2 py-4 text-md whitespace-nowrap text-center">{{ record.numeroCuenta }}</td>
+          <td class="px-2 py-4 text-md whitespace-nowrap text-center">{{ record.carrera }}</td>
+          <td class="px-2 py-4 text-md whitespace-nowrap text-center">{{ record.semestre }}</td>
+          <td class="px-2 py-4 text-md whitespace-nowrap text-center"><i class="fa-solid fa-arrow-down fa-xl mr-2" style="color: #0ba300;"></i> {{ record.fechaHoraEntrada.toDate() | date: 'medium' }}</td>
+          <td class="px-2 py-4 text-md whitespace-nowrap text-center"><i class="fa-solid fa-arrow-up fa-xl mr-2" style="color: #d31717;"></i> {{ record.fechaHoraSalida ? (record.fechaHoraSalida.toDate() | date: 'medium') : '---' }}</td>
         </tr>
       </tbody>
     </table>
