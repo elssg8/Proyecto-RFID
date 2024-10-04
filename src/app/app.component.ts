@@ -17,8 +17,14 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   title = 'proyecto-rfid';
   showAccessRecords = true; // Controla qué componente mostrar
+  spinState: string = '';
 
   toggleComponents() {
     this.showAccessRecords = !this.showAccessRecords;
+    this.spin();
+  }
+
+  spin() {
+    this.spinState = 'animate-spin_357';
   }
 }

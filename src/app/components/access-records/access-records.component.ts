@@ -6,17 +6,23 @@ import { AnimateService } from '../../shared/animate.service';
 import { AccessRecord } from '../../access-record.model';
 import { User } from '../../user.model';
 import { Timestamp } from 'firebase/firestore';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-access-records',
   standalone: true,
-  imports: [DatePipe, NgFor],
+  imports: [DatePipe, NgFor, CommonModule],
   templateUrl: './access-records.component.html',
   styleUrl: './access-records.component.css'
 })
 export class AccessRecordsComponent implements OnInit {
-  [x: string]: any;
   accessRecords: AccessRecord[] = [];
+  isModalVisible: boolean = false;
+  isAutoCloseModalVisible: boolean = false; // Modal sin botón de cerrar
+  isUserRegistered: boolean = true;
+  modalMessage: string = '';
+  autoCloseMessage: string = '';
+  isNotFound: boolean = false;
 
   constructor(private firestoreService: FirestoreService, 
     private dataService: DataService,
@@ -64,6 +70,10 @@ export class AccessRecordsComponent implements OnInit {
           lastAccessRecord.fechaHoraSalida = Timestamp.fromDate(new Date());
           await this.firestoreService.updateAccessRecord(lastAccessRecord); // Actualizar el registro
 
+          this.autoCloseMessage = `Hasta luego, ${user.nombre}`;
+          this.isAutoCloseModalVisible = true;
+          setTimeout(() => this.closeAutoCloseModal(), 5000);
+
           // Enviar mensaje de salida al ESP32
           this.dataService.sendMessage('salida');
         } else {
@@ -77,6 +87,10 @@ export class AccessRecordsComponent implements OnInit {
             fechaHoraEntrada: Timestamp.fromDate(new Date()) // Guardar la entrada
           };
           await this.firestoreService.addAccessRecord(newAccessRecord); // Crear un nuevo registro
+
+          this.autoCloseMessage = `Bienvenido(a), ${user.nombre}`;
+          this.isAutoCloseModalVisible = true;
+          setTimeout(() => this.closeAutoCloseModal(), 5000);
           
           // Enviar mensaje de entrada al ESP32
           this.dataService.sendMessage('entrada');
@@ -87,9 +101,23 @@ export class AccessRecordsComponent implements OnInit {
         // Disparar la animación de la puerta
         this.animateService.triggerAnimation();
       } else {
-        console.error('Usuario no encontrado para el RFID:', rfid);
-        // Manejar el caso cuando el usuario no se encuentra
+         // Mostrar el modal si el usuario no está registrado
+         this.autoCloseMessage = 'El usuario no esta registrado.';
+         this.isNotFound = true;
+         this.isAutoCloseModalVisible = true;
+         setTimeout(() => {
+          this.closeAutoCloseModal();
+          this.isNotFound = false;
+        },3000);
       }
+    }
+
+    closeModal() {
+      this.isModalVisible = false;
+    }
+
+    closeAutoCloseModal() {
+      this.isAutoCloseModalVisible = false;
     }
     
 }

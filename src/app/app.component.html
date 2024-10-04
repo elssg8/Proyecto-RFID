@@ -1,17 +1,18 @@
 <app-header></app-header>
 
-<div class="flex justify-center my-4">
+<div class="flex justify-center mt-4 mb-10">
   <button
     (click)="toggleComponents()"
-    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105">
+    class="flex flex-row bg-blue-500 hover:bg-blue-700 text-white text-2xl font-bold py-3 px-5 rounded hover:scale-105">
+    <i class="fa-solid fa-right-left fa-sm self-center mr-4"></i>
     {{ showAccessRecords ? 'Modo Registro' : 'Modo Acceso' }}
   </button>
 </div>
 
 
-<div *ngIf="!showAccessRecords" class="grid grid-cols-2 gap-6 my-5 mx-5">
-  <app-register-user></app-register-user>
-  <app-modify-user></app-modify-user>
+<div *ngIf="!showAccessRecords" class="grid grid-cols-5 gap-6 my-5 mx-5 h-[700px] items-center">
+  <app-register-user class="grid col-span-2"></app-register-user>
+  <app-modify-user class="grid col-span-3"></app-modify-user>
 </div>
 
 <div *ngIf="showAccessRecords" class="flex my-5 mx-5 gap-6">

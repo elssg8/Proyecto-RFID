@@ -54,6 +54,15 @@ export class RegisterUserComponent implements OnInit {
   }
 
   onSubmit() {
+
+    if (this.registerForm.invalid) {
+      // Si el formulario no es válido, mostrar un mensaje de error en el modal
+      this.modalMessage = 'Por favor, complete todos los campos requeridos.';
+      this.isUserRegistered = false;
+      this.isModalVisible = true;
+      return;  // Detener la ejecución si el formulario no es válido
+    }
+
     if (this.isEditMode && this.currentUser) {
       // Si estamos editando un usuario existente
       this.firestoreService.updateUser(this.registerForm.value)
