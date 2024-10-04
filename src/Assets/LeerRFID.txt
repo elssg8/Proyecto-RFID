@@ -4,8 +4,10 @@
 #include <WebSocketsServer.h>
 
 // Configuración de red WiFi
-const char* ssid = "OnePlus 11 5G";
-const char* password = "c7bxwmdr";
+/* const char* ssid = "OnePlus 11 5G";
+const char* password = "c7bxwmdr"; */
+const char* ssid = "INFINITUMF4AF";
+const char* password = "$7UegKW37aT;";
 
 // WebSocket en el puerto 81
 WebSocketsServer webSocket = WebSocketsServer(5000);
